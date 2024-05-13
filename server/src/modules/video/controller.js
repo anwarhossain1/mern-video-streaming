@@ -1,3 +1,4 @@
+const multer  = require('multer') 
 const setupRoutes = (app) => {
   app.get("/", async (req, res) => {
     return res.status(200).send({ message: "Success" });
@@ -47,7 +48,14 @@ const setupRoutes = (app) => {
       }
     });
   };
-  app.post("/upload", uploadProcessor, async (req, res) => {});
+  app.post("/upload", uploadProcessor, async (req, res) => {
+    try {
+        console.log("Post upload", JSON.stringify(req.body))
+        return res.status(200).json({message:'uploaded'})
+    } catch (error) {
+        console.log(error)
+    }
+  });
 };
 
 module.exports = { setupRoutes };
