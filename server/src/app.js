@@ -1,5 +1,9 @@
 const express = require('express')
+const {createServer} = require('http');
+const { Server } = require('socket.io');
 const cors = require('cors');
+
+
 const {setupRoutes} = require('./modules/video/controller')
 const app = express()
 app.use(cors({
@@ -9,7 +13,16 @@ app.use(cors({
 }));
 const port = 4000
 app.use(express.json())
-app.listen(port, () => {
+
+const server = createServer(app);
+const io = new Server(server);
+
+
+
+io.on('connection', (socket) => { 
+  console.log('a user connected');
+});
+server.listen(port, () => {
     setupRoutes(app)
     console.log(`Example app listening on port ${port}`)
   })
